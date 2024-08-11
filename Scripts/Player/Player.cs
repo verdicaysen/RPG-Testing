@@ -26,6 +26,7 @@ public partial class Player : CharacterBody3D
         Velocity *= 5;
         //Enables velocity to move with the physics engine. You don't need to specify delta with MoveAndSlide.
         MoveAndSlide();
+        Flip();
     }
 
     //Establish some controls.
@@ -47,6 +48,20 @@ public partial class Player : CharacterBody3D
         {
             animationPlayerNode.Play(GameConstants.ANIMATION_MOVE);
         }
+    }
+
+    private void Flip()
+    {
+        bool notMoving = Velocity.X == 0;
+
+        if(notMoving) 
+        {
+            return;
+        }
+
+        bool isMovingLeft = Velocity.X < 0;
+        spriteNode.FlipH = isMovingLeft;
+
     }
 
 }
