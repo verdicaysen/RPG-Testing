@@ -3,9 +3,20 @@ using System;
 
 public partial class Player : CharacterBody3D
 {
+    //You can set this so that you require these nodes to be built for player and characters.
+    [ExportGroup("Required Nodes")]
+    //We're making it publicly available to attach an AnimationPlayer node to this Player node.
+    [Export] private AnimationPlayer animationPlayerNode;
+    //We're making it publicly availably to attach a Sprite3D node to this Player node.
+    [Export] private Sprite3D spriteNode;
 
     //Instancing a new version of Vector2 to convert to Vector3. We wouldn't have to do this in a 2D only game.
     private Vector2 direction = new();
+
+    public override void _Ready()
+    {
+        animationPlayerNode.Play(GameConstants.ANIMATION_IDLE);
+    }
 
     public override void _PhysicsProcess(double delta)
     {
@@ -27,6 +38,15 @@ public partial class Player : CharacterBody3D
             "MoveUp",
             "MoveDown"
         );
+
+        if(direction == Vector2.Zero)
+        {
+            animationPlayerNode.Play(GameConstants.ANIMATION_IDLE);
+        }
+        else
+        {
+            animationPlayerNode.Play(GameConstants.ANIMATION_MOVE);
+        }
     }
 
 }
